@@ -1,3 +1,20 @@
-false
-true
-EXIT_SUCCESS
+here./keyvalueheretest2.ininput: "a=b"
+key  : "a"
+value: "b"
+input: "key=value"
+key  : "key"
+value: "value"
+input: "this=is a test"
+key  : "this"
+value: "is a test"
+input: "this"
+query: "this"
+input: "key"
+query: "key"
+input: "a"
+query: "a"
+input: "="
+key  : ""
+value: ""
+input: "# $Id: test1.in,v 1.2 2021-02-08 14:03:08-08 - - $"
+Comment or empty line.
