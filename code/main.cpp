@@ -44,7 +44,7 @@ int main(int argc, char **argv)
    scan_options(argc, argv);
    str_str_map map;
 
-   for (int i = 1; i < argc; i++)
+   for (int i = 0; i < argc; i++)
    {
       regex comment_regex{R"(^\s*(#.*)?$)"};
       regex key_value_regex{R"(^\s*(.*?)\s*=\s*(.*?)\s*$)"};
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 
       bool file_input;
       ifstream file(argv[i]);
-      if (argv[i] == string("-") || argc == 1) // blank input does not work
+      if (argv[i] == string("-") || argc == 1)
       {
          file_input = false;
       }

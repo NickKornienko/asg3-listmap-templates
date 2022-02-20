@@ -78,7 +78,7 @@ void listmap<key_t, mapped_t, less_t>::print(const iterator &that)
    iterator itr = that;
    if (itr == end())
    {
-      cout << itr->first << ": key not found" << endl;
+      cout << itr->first << ": key not found" << endl; // flawed
       return;
    }
    cout << itr->first << " " << itr->second << endl;
