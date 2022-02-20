@@ -1,6 +1,9 @@
-.o*
-.out*
-.log*
-.vscode*
-.files*
-.nofiles*
+*.o
+*.out
+*.log
+*.vscode
+*.files
+*.nofiles
+*stdin
+*.log
+*.out

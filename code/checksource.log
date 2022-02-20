@@ -1,6 +1,5 @@
 checksource: line length > 72 characters
-listmap.h: 2 errors: lines 17, 37
-main.cpp: 2 errors: lines 95, 103
+main.cpp: 2 errors: lines 56, 79
 checksource: missing newline at end of line
 listmap.tcc: 1 errors: line 94
-checksource: TOTAL COMPLAINTS: 5
+checksource: TOTAL COMPLAINTS: 3
