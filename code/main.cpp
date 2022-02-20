@@ -44,40 +44,38 @@ int main(int argc, char **argv)
    scan_options(argc, argv);
    for (int i = 0; i < argc; i++)
    {
-      cout << "\n"
-           << argv[i] << "\n";
       regex comment_regex{R"(^\s*(#.*)?$)"};
       regex key_value_regex{R"(^\s*(.*?)\s*=\s*(.*?)\s*$)"};
       regex trimmed_regex{R"(^\s*([^=]+?)\s*$)"};
-
+      cout << "\n" << argv[i] << endl;
       string line;
-      if (argv[i] == string("-"))
+      if (argv[i] == string("-") || argc == 1)
       {
+         int line_num = 0;
          while (getline(cin, line))
          {
             cout << "input: \"" << line << "\"" << endl;
             smatch result;
             if (regex_search(line, result, comment_regex))
             {
-               cout << "Comment or empty line." << endl;
+               cout << line << " - " << line_num++ << endl;
             }
             else if (regex_search(line, result, key_value_regex))
             {
+               cout << line << " - " << line_num++ << endl;
                cout << "key  : \"" << result[1] << "\"" << endl;
                cout << "value: \"" << result[2] << "\"" << endl;
             }
             else if (regex_search(line, result, trimmed_regex))
             {
+               cout << line << " - " << line_num++ << endl;
                cout << "query: \"" << result[1] << "\"" << endl;
             }
             else
-            {
                cout << "This cannot happen.";
-               // assert (false and "This can not happen.");
-            }
          }
       }
-      else
+      else if (i != 0)
       {
          ifstream file(argv[i]);
          if (!file.is_open())
@@ -86,7 +84,30 @@ int main(int argc, char **argv)
             exit(-1);
          }
 
+         int line_num = 0;
          while (getline(file, line))
+         {
+            cout << "input: \"" << line << "\"" << endl;
+            smatch result;
+            if (regex_search(line, result, comment_regex))
+            {
+               cout << line << " " << argv[i] << " " <<  line_num++ << endl;
+            }
+            else if (regex_search(line, result, key_value_regex))
+            {
+               cout << line << " " << argv[i] << " " << line_num++ << endl;
+               cout << "key  : \"" << result[1] << "\"" << endl;
+               cout << "value: \"" << result[2] << "\"" << endl;
+            }
+            else if (regex_search(line, result, trimmed_regex))
+            {
+               cout << line << " " << argv[i] << " " << line_num++ << endl;
+               cout << "query: \"" << result[1] << "\"" << endl;
+            }
+            else
+               cout << "This cannot happen.";
+         }
+while (getline(file, line))
          {
             cout << "input: \"" << line << "\"" << endl;
             smatch result;
@@ -104,14 +125,12 @@ int main(int argc, char **argv)
                cout << "query: \"" << result[1] << "\"" << endl;
             }
             else
-            {
                cout << "This cannot happen.";
-               // assert (false and "This can not happen.");
-            }
          }
          file.close();
       }
    }
+
    return 0;
    /*str_str_map test;
    cout << test << endl;
