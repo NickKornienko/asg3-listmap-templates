@@ -55,7 +55,7 @@ public:
    iterator end() { return anchor(); }
    bool empty() const { return anchor_.next == &anchor_; }
    operator bool() const { return not empty(); }
-   void print(const iterator &that);
+   void print(const key_type &, const iterator &that);
    void print_all();
 };
 

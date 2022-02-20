@@ -114,7 +114,7 @@ int main(int argc, char **argv)
          }
          else if (regex_search(line, result, trimmed_regex)) // key
          {
-            map.print(map.find(result[1]));
+            map.print(result[1], map.find(result[1]));
             continue;
          }
          else
