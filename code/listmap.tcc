@@ -23,6 +23,8 @@ listmap<key_t,mapped_t,less_t>::~listmap() {
 template <typename key_t, typename mapped_t, class less_t>
 typename listmap<key_t,mapped_t,less_t>::iterator
 listmap<key_t,mapped_t,less_t>::insert (const value_type& pair) {
+   
+
    DEBUGF ('l', &pair << "->" << pair);
    return iterator();
 }
