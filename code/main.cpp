@@ -44,82 +44,83 @@ int main(int argc, char **argv)
    scan_options(argc, argv);
    str_str_map map;
 
-   for (int i = 0; i < argc; i++)
+   for (int i = 1; i < argc; i++)
    {
       regex comment_regex{R"(^\s*(#.*)?$)"};
       regex key_value_regex{R"(^\s*(.*?)\s*=\s*(.*?)\s*$)"};
       regex trimmed_regex{R"(^\s*([^=]+?)\s*$)"};
       string line;
-      
-      if (argv[i] == string("-") || argc == 1)
+
+      bool file_input;
+      ifstream file(argv[i]);
+      if (argv[i] == string("-") || argc == 1) // blank input does not work
       {
-         int line_num = 0;
-         while (getline(cin, line))
-         {
-            cout << "input: \"" << line << "\"" << endl;
-            smatch result;
-            if (regex_search(line, result, comment_regex))
-            {
-               cout << line << " - " << line_num++ << endl;
-            }
-            else if (regex_search(line, result, key_value_regex))
-            {
-               cout << line << " - " << line_num++ << endl;
-               cout << "key  : \"" << result[1] << "\"" << endl;
-               cout << "value: \"" << result[2] << "\"" << endl;
-            }
-            else if (regex_search(line, result, trimmed_regex))
-            {
-               cout << line << " - " << line_num++ << endl;
-               cout << "query: \"" << result[1] << "\"" << endl;
-            }
-            else
-               cout << "This cannot happen.";
-         }
+         file_input = false;
       }
       else if (i != 0)
       {
-         ifstream file(argv[i]);
          if (!file.is_open())
          {
-            cout << "Error" << endl;
+            cout << "Error: Cannot open file" << endl;
             exit(-1);
          }
+         file_input = true;
+      }
 
-         int line_num = 1;
+      istream &input = file_input ? file : cin;
 
-         while (getline(file, line))
+      int line_num = 0;
+      while (getline(input, line))
+      {
+         line_num++;
+         smatch result;
+
+         cout << argv[i] << ": " << line_num << ": " << line << endl;
+         if (regex_search(line, result, comment_regex)) // comments/blank lines
          {
-            smatch result;
-            cout << argv[i] << ": " << line_num++ << ": " <<  line << endl;
-
-            if (regex_search(line, result, comment_regex))
+            continue;
+         }
+         else if (regex_search(line, result, key_value_regex))
+         {
+            if (result[1] != "" && result[2] == "") // key =
+            {
+               map.erase(map.find(result[1])); // TODO: implement erase
                continue;
-            else if (regex_search(line, result, key_value_regex))
-            {
-               if(result[1] != "" && result[2] == "") //key =
-               {
-                  continue; 
-               }
-               if(result[1] != "" && result[2] != "") //key = value
-               {
-                  str_str_pair pair (result[1], result[2]);
-                  map.insert(pair);
-               }
-               if(result[1] == "" && result[2] == "") // = value
-               {
-                 continue; 
-               }
-               if(result[1] == "" && result[2] == "") // =
-               {
-                 continue;  
-               }
             }
-            else if (regex_search(line, result, trimmed_regex))
+            if (result[1] != "" && result[2] != "") // key = value
             {
+               str_str_pair pair(result[1], result[2]);
+               map.insert(pair);
+               continue;
             }
-            else
-               cout << "This cannot happen.";
+            if (result[1] == "" && result[2] != "") // = value
+            {
+               str_str_map values;
+               for (auto pair : map)
+               {
+                  if (pair.second == result[2])
+                  {
+                     values.insert(pair);
+                  }
+               }
+               values.print_all();
+               continue;
+            }
+            if (result[1] == "" && result[2] == "") // =
+            {
+               map.print_all();
+               continue;
+            }
+         }
+         else if (regex_search(line, result, trimmed_regex)) // key
+         {
+            map.print(map.find(result[1]));
+            continue;
+         }
+         else
+         {
+            cout << "This cannot happen.";
+            exit(-1);
          }
       }
    }
