@@ -53,18 +53,33 @@ int main(int argc, char **argv)
 
       bool file_input;
       ifstream file(argv[i]);
-      if (argv[i] == string("-") || argc == 1)
+
+      if (i == 0)
       {
-         file_input = false;
-      }
-      else if (i != 0)
-      {
-         if (!file.is_open())
+         if (argc == 1)
          {
-            cout << "Error: Cannot open file" << endl;
-            exit(-1);
+            file_input = false;
          }
-         file_input = true;
+         else
+         {
+            continue;
+         }
+      }
+      else
+      {
+         if (argv[i] == string("-"))
+         {
+            file_input = false;
+         }
+         else
+         {
+            if (!file.is_open())
+            {
+               cout << "Error: Cannot open file" << endl;
+               exit(-1);
+            }
+            file_input = true;
+         }
       }
 
       istream &input = file_input ? file : cin;
