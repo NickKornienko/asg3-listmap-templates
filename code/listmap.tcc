@@ -27,20 +27,30 @@ listmap<key_t, mapped_t, less_t>::insert(const value_type &pair)
 {
    for (iterator itr = begin(); itr != end(); ++itr)
    {
-      if (less(pair.first, itr->first))
+      if (!less(itr->first, pair.first))
       {
-         if (less(itr->first, pair.first))
+         if (!less(pair.first, itr->first))
          {
             itr->second = pair.second;
+            return itr;
          }
-         node *curr = ++itr.where; // might not work
-         node to_insert(curr->next, curr->prev, pair);
-         return itr;
+         node *curr = itr.where;
+         node *to_insert = new node(curr, curr->prev, pair);
+
+         curr->prev->next = to_insert;
+         curr->prev = to_insert;
+         return --itr;
       }
    }
    iterator itr = end();
-   node *curr = --itr.where; // might not work
-   node to_insert(curr->next, curr->prev, pair);
+   node *anc = itr.where;
+
+   node *to_insert = new node(anc, anc->prev, pair);
+
+   anc->prev->next = to_insert;
+   anc->prev = to_insert;
+   --itr;
+
    return itr;
 }
 
@@ -53,7 +63,7 @@ listmap<key_t, mapped_t, less_t>::find(const key_type &that)
 {
    for (iterator itr = begin(); itr != end(); ++itr)
    {
-      if (less(that, itr->first) && less(itr->first, that))
+      if (!less(that, itr->first) && !less(itr->first, that))
       {
          return itr;
       }
@@ -68,8 +78,18 @@ template <typename key_t, typename mapped_t, class less_t>
 typename listmap<key_t, mapped_t, less_t>::iterator
 listmap<key_t, mapped_t, less_t>::erase(iterator position)
 {
-   DEBUGF('l', &*position);
-   return iterator();
+   if (position == end())
+   {
+      return end();
+   }
+
+   node *to_delete = position.where;
+   to_delete->prev->next = to_delete->next;
+   to_delete->next->prev = to_delete->prev;
+
+   delete to_delete;
+
+   return ++position;
 }
 
 template <typename key_t, typename mapped_t, class less_t>

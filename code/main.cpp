@@ -84,7 +84,7 @@ int main(int argc, char **argv)
          {
             if (result[1] != "" && result[2] == "") // key =
             {
-               map.erase(map.find(result[1])); // TODO: implement erase
+               map.erase(map.find(result[1]));
                continue;
             }
             if (result[1] != "" && result[2] != "") // key = value
