@@ -17,4 +17,10 @@ perl pkeyvalue.perl test3.in >run5perl.files 2>&1
 perl pkeyvalue.perl test*in >run6perl.files 2>&1
 perl pkeyvalue.perl /no/such no//file/either >run7perl.nofiles 2>&1
 
-
+diff run1.stdin run1perl.stdin
+diff run2.stdin run2perl.stdin
+diff run3.files run3perl.files
+diff run4.files run4perl.files
+diff run5.files run5perl.files
+diff run6.files run6perl.files
+diff run7.nofiles run7perl.nofiles

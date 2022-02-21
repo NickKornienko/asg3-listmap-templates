@@ -1,4 +1,6 @@
 // $Id: debug.h,v 1.7 2021-12-20 12:56:53-08 - - $
+// James Garrett jaagarre
+// Nick Kornienko nkornien
 
 #ifndef DEBUG_H
 #define DEBUG_H

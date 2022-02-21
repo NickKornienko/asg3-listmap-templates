@@ -1,4 +1,6 @@
 // $Id: util.h,v 1.10 2021-12-20 12:56:53-08 - - $
+// James Garrett jaagarre
+// Nick Kornienko nkornien
 
 //
 // util -

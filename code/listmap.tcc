@@ -1,4 +1,6 @@
 // $Id: listmap.tcc,v 1.15 2019-10-30 12:44:53-07 - - $
+// James Garrett jaagarre
+// Nick Kornienko nkornien
 
 #include "listmap.h"
 #include "debug.h"
@@ -54,7 +56,7 @@ listmap<key_t, mapped_t, less_t>::insert(const value_type &pair)
    anc->prev = to_insert;
    --itr;
 
-    return itr;
+   return itr;
 }
 
 //

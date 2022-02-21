@@ -1,4 +1,6 @@
 // $Id: main.cpp,v 1.13 2021-02-01 18:58:18-08 - - $
+// James Garrett jaagarre
+// Nick Kornienko nkornien
 
 #include <cstdlib>
 #include <exception>
@@ -74,7 +76,7 @@ int main(int argc, char **argv)
          else
          {
             if (!file.is_open())
-               cout << "keyvalue: " << argv[i] 
+               cout << "keyvalue: " << argv[i]
                     << ": No such file or directory" << endl;
             file_input = true;
          }
@@ -88,11 +90,11 @@ int main(int argc, char **argv)
          line_num++;
          smatch result;
 
-         if(file_input)
+         if (file_input)
             cout << argv[i] << ": " << line_num << ": " << line << endl;
          else
             cout << "-: " << line_num << ": " << line << endl;
- 
+
          if (regex_search(line, result, comment_regex))
          {
             continue;
@@ -109,20 +111,21 @@ int main(int argc, char **argv)
             {
                str_str_pair pair(result[1], result[2]);
                map.insert(pair);
-               cout << result[1] << " = " << result[2] << endl; 
+               cout << result[1] << " = " << result[2] << endl;
                continue;
             }
             if (result[1] == "" && result[2] != "") // = value
             {
-               str_str_map values;
-               for (auto pair : map)
+               for (listmap<std::string, std::string,
+                            xless<std::string>>::iterator
+                        itr = map.begin();
+                    itr != map.end(); ++itr)
                {
-                  if (pair.second == result[2])
+                  if (itr->second == result[2])
                   {
-                     values.insert(pair);
+                     map.print(itr->first, itr);
                   }
                }
-               values.print_all();
                continue;
             }
             if (result[1] == "" && result[2] == "") // =
@@ -145,23 +148,4 @@ int main(int argc, char **argv)
    }
 
    return 0;
-   /*str_str_map test;
-   cout << test << endl;
-   for (char** argp = &argv[optind]; argp != &argv[argc]; ++argp) {
-      str_str_pair pair (*argp, to_string<int> (argp - argv));
-      cout << "Before insert: " << pair << endl;
-      test.insert (pair);
-   }
-
-   cout << test.empty() << endl;
-   for (str_str_map::iterator itor = test.begin();
-        itor != test.end(); ++itor) {
-      cout << "During iteration: " << *itor << endl;
-   }
-
-   str_str_map::iterator itor = test.begin();
-   test.erase (itor);
-
-   cout << "EXIT_SUCCESS" << endl;
-   return EXIT_SUCCESS;*/
 }
