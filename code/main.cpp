@@ -91,7 +91,7 @@ int main(int argc, char **argv)
          smatch result;
 
          cout << argv[i] << ": " << line_num << ": " << line << endl;
-         if (regex_search(line, result, comment_regex)) // comments/blank lines
+         if (regex_search(line, result, comment_regex))
          {
             continue;
          }

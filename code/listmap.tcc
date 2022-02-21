@@ -15,10 +15,10 @@
 template <typename key_t, typename mapped_t, class less_t>
 listmap<key_t, mapped_t, less_t>::~listmap()
 {
-   // for (iterator itr = begin(); itr != end(); ++itr)
-   // {
-   //    erase(itr);
-   // }
+   while (!empty())
+   {
+      erase(begin());
+   }
 }
 
 //
@@ -96,7 +96,8 @@ listmap<key_t, mapped_t, less_t>::erase(iterator position)
 }
 
 template <typename key_t, typename mapped_t, class less_t>
-void listmap<key_t, mapped_t, less_t>::print(const key_type &key, const iterator &that)
+void listmap<key_t, mapped_t, less_t>::print(const key_type &key,
+                                             const iterator &that)
 {
    iterator itr = that;
    if (itr == end())
