@@ -54,7 +54,7 @@ listmap<key_t, mapped_t, less_t>::insert(const value_type &pair)
    anc->prev = to_insert;
    --itr;
 
-   return itr;
+    return itr;
 }
 
 //
@@ -105,7 +105,7 @@ void listmap<key_t, mapped_t, less_t>::print(const key_type &key,
       cout << key << ": key not found" << endl;
       return;
    }
-   cout << itr->first << " " << itr->second << endl;
+   cout << itr->first << " = " << itr->second << endl;
 }
 
 template <typename key_t, typename mapped_t, class less_t>

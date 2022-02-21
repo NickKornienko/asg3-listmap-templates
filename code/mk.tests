@@ -8,3 +8,13 @@ echo stdin=value | ./keyvalue - test1.in >run3.files 2>&1
 ./keyvalue test*in >run6.files 2>&1
 ./keyvalue /no/such no//file/either >run7.nofiles 2>&1
 valgrind keyvalue test*.in >valgrind.out 2>&1
+
+perl pkeyvalue.perl <test1.in >run1perl.stdin 2>&1
+perl pkeyvalue.perl <test2.in >run2perl.stdin 2>&1
+echo stdin=value | perl pkeyvalue.perl - test1.in >run3perl.files 2>&1
+perl pkeyvalue.perl test2.in >run4perl.files 2>&1
+perl pkeyvalue.perl test3.in >run5perl.files 2>&1
+perl pkeyvalue.perl test*in >run6perl.files 2>&1
+perl pkeyvalue.perl /no/such no//file/either >run7perl.nofiles 2>&1
+
+

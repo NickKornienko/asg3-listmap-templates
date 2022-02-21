@@ -74,10 +74,8 @@ int main(int argc, char **argv)
          else
          {
             if (!file.is_open())
-            {
-               cout << "Error: Cannot open file" << endl;
-               exit(-1);
-            }
+               cout << "keyvalue: " << argv[i] 
+                    << ": No such file or directory" << endl;
             file_input = true;
          }
       }
@@ -90,7 +88,11 @@ int main(int argc, char **argv)
          line_num++;
          smatch result;
 
-         cout << argv[i] << ": " << line_num << ": " << line << endl;
+         if(file_input)
+            cout << argv[i] << ": " << line_num << ": " << line << endl;
+         else
+            cout << "-: " << line_num << ": " << line << endl;
+ 
          if (regex_search(line, result, comment_regex))
          {
             continue;
@@ -99,6 +101,7 @@ int main(int argc, char **argv)
          {
             if (result[1] != "" && result[2] == "") // key =
             {
+               cout << result[1] << " =" << endl;
                map.erase(map.find(result[1]));
                continue;
             }
@@ -106,6 +109,7 @@ int main(int argc, char **argv)
             {
                str_str_pair pair(result[1], result[2]);
                map.insert(pair);
+               cout << result[1] << " = " << result[2] << endl; 
                continue;
             }
             if (result[1] == "" && result[2] != "") // = value
